@@ -20,27 +20,157 @@
 		var pathStyle = {
 			"opacity":0
 		}
-	
-        var paper = Raphael("canvas", '100%', '100%');  
 
+		var newYear = new Date(2016, 11, 15, 23, 15, 0);
+		var now = new Date();
+		//var now1 = new Date(2016, 11, 31, 23, 59, 1);
+
+		console.log(now);
+
+		function pad2(num) {
+			var s = "0" + num;
+			return s.substr(s.length - 2);
+		}
+
+		function prettyTimespan(start, end) {
+			var diff = end.getTime() - start.getTime();
+			var days = Math.floor(diff / (1000 * 60 * 60 * 24));
+			diff -= days * (1000 * 60 * 60 * 24);
+			var hours = Math.floor(diff / (1000 * 60 * 60));
+			diff -= hours * (1000 * 60 * 60);
+			var mins = Math.floor(diff / (1000 * 60));
+			diff -= mins * (1000 * 60);
+			var seconds = Math.floor(diff / (1000));
+			diff -= seconds * (1000);
+
+			var timeMessage = "";
+			if (days > 0)
+				timeMessage = "Nog langer dan " + days + ((days > 1) ? " dagen" : " dag");
+			else {
+				var hoursMessage = "";
+				if (hours > 0)
+					timeMessage = "Nog langer dan " + hours + ((hours > 1) ? " uren" : " uur");
+				else {
+					var minutesMessage = "";
+					if (mins > 0)
+						minutesMessage = mins + ((mins > 1) ? " minuten" : " minuut");
+					var secondsMessage = "";
+					if (seconds > 0)
+						secondsMessage = seconds + " seconden";
+
+					timeMessage = "Nog " + minutesMessage + ((minutesMessage != "") ? " en " : "") + secondsMessage;
+				}
+			}
+
+			return timeMessage;
+		}
+
+		function prettyFullTimespan(start, end) {
+			var diff = end.getTime() - start.getTime();
+			if (diff < 0) {
+				return "De tijd is verstreken";
+			}
+
+			var days = Math.floor(diff / (1000 * 60 * 60 * 24));
+			diff -= days * (1000 * 60 * 60 * 24);
+			var hours = Math.floor(diff / (1000 * 60 * 60));
+			diff -= hours * (1000 * 60 * 60);
+			var mins = Math.floor(diff / (1000 * 60));
+			diff -= mins * (1000 * 60);
+			var seconds = Math.floor(diff / (1000));
+			diff -= seconds * (1000);
+
+			var timeMessage = "";
+			var dayMessage = "";
+			if (days > 0)
+				dayMessage = days + ((days > 1) ? " dagen" : " dag");
+			var hoursMessage = "";
+			if (hours > 0)
+				hoursMessage = (days > 0 ? " " : "") + pad2(hours) + ":";
+			var minutesMessage = "";
+			var secondsMessage = "";
+			if (days == 0 && hours == 0 && mins == 0)  {
+				secondsMessage = seconds + " seconden";
+			}
+			else {
+				minutesMessage = pad2(mins) + ":";
+				secondsMessage = pad2(seconds);
+			}
+
+			return "Nog " + dayMessage + hoursMessage + minutesMessage + secondsMessage;
+		}
+
+		var prettyMessage = prettyTimespan(now, newYear);
+
+
+		var timeFunction = function () {
+			var fullPrettyMessage = prettyFullTimespan(new Date(), newYear)
+			console.log(fullPrettyMessage);
+
+			var prettyTimeElem = paper.getById('timeText');
+			if (prettyTimeElem == undefined) {
+				prettyTimeElem = paper.text(offsetWidth / 2, 170, "").attr({ id: 'timeText' }).attr({ "font-size": 16, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "middle" }).attr({ fill: '#000000' });
+				prettyTimeElem.id = 'timeText';
+			}
+			prettyTimeElem.attr({ text: fullPrettyMessage });
+		};
+
+
+		console.log(prettyMessage);
+
+
+
+
+        var paper = Raphael("canvas", '100%', 500);  
 		var offsetWidth = $("#canvas").width();
 		
-		var t1 = paper.text(50, 50, "vvvv").attr({ "font-size": 16, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "start"}).attr({fill: '#FFFFFF'});
-		var t2 = paper.text(offsetWidth - 50, 50, "").attr({ "font-size": 16, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "end"}).attr({fill: '#FFFFFF'});
-	
+		var t11 = paper.text(offsetWidth - 50, 50, "Wat gebeurt er?").attr({ "font-size": 16, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "end" }).attr({ fill: '#FFFFFF' });
+		var t21 = paper.text(50, 70, "Vuurwerk...").attr({ "font-size": 16, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "start" }).attr({ fill: '#FFFFFF' });
+		var t12 = paper.text(offsetWidth - 50, 90, "Wanneer?").attr({ "font-size": 16, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "end" }).attr({ fill: '#FFFFFF' });
+		var t22 = paper.text(50, 110, prettyMessage).attr({ "font-size": 16, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "start" }).attr({ fill: '#FFFFFF' });
+		var t13 = paper.text(offsetWidth - 50, 130, "Oei").attr({ "font-size": 16, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "end" }).attr({ fill: '#FFFFFF' });
+		var t24 = paper.text(50, 150, "Kom dan nog eens terug.").attr({ "font-size": 16, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "start" }).attr({ fill: '#FFFFFF' });
+		var t14 = paper.text(offsetWidth - 50, 170, "Doe ik...").attr({ "font-size": 16, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "end" }).attr({ fill: '#FFFFFF' });
+
+		var fadeDuration = 1;
+		var pauseDuration = 1;
+		var cycleDuration = 3 * fadeDuration + pauseDuration;
 		
 		var fadeOutAnimation = Raphael.animation({
 			"fill" : "#FFFFFF",
-		}, 2000);		
+		}, fadeDuration);
 	
 		var fadeInOutAnimation = Raphael.animation({
 			"fill" : "#000000",
-		}, 2000, function() {
-			this.animate(fadeOutAnimation.delay(2000));
-		});		
-		
-		t1.animate(fadeInOutAnimation);
-		
+		}, fadeDuration, function () {
+			this.animate(fadeOutAnimation.delay(fadeDuration));
+			console.log(step);
+		});
+
+
+		var fadeOutAndStartCountDownAnimation = Raphael.animation({
+			"fill": "#FFFFFF",
+		}, fadeDuration, function () {
+			setInterval(timeFunction, 1000);
+		});
+
+		var fadeInOutAndStartCountDownAnimation = Raphael.animation({
+			"fill": "#000000",
+		}, fadeDuration, function () {
+			this.animate(fadeOutAndStartCountDownAnimation.delay(fadeDuration));
+		});
+
+		var step = 0;
+		t11.animate(fadeInOutAnimation.delay(step * cycleDuration)); step++;
+		t21.animate(fadeInOutAnimation.delay(step * cycleDuration)); step++;
+		t12.animate(fadeInOutAnimation.delay(step * cycleDuration)); step++;
+		t22.animate(fadeInOutAnimation.delay(step * cycleDuration)); step++;
+		//t23.animate(fadeInOutAnimation.delay(step * cycleDuration)); step++;
+		t13.animate(fadeInOutAnimation.delay(step * cycleDuration)); step++;
+		t24.animate(fadeInOutAnimation.delay(step * cycleDuration)); step++;
+		t14.animate(fadeInOutAndStartCountDownAnimation.delay(step * cycleDuration)); step++;
+
+
     </script>
 </body>
 </html>
