@@ -5,12 +5,18 @@
         <title>Trojka software: Nieuwjaar</title>
         <style type="text/css">
             body{font-family: arial; background: #FFFFFF}
-			#getFontSize {
-				font-size: 3em; visibility: hidden; margin: 0px
+			.calcTextSizeContainer {
+				overflow-x: scroll;
+				white-space: nowrap;
+				font-size: 3em;
+			}
+			.calcTextSizeSpan {
+				display: inline-block;
+				white-space: nowrap;
 			}
         </style>
     </head>
-    <body>
+    <body id="theBody">
 		<div >
 			<table>
 				<tr></tr>
@@ -33,7 +39,9 @@
 				<script type="IN/Share" data-url="https://trojka.github.io/newyear/index.html" data-counter="top">
 				</script>
 			</span>
-			<h1 id="getFontSize">Hide</h1>
+		</div>
+		<div id="textCalculatorContainer" class="calcTextSizeContainer">
+			<span id="textCalculator" class="calcTextSizeSpan"></span>
 		</div>
 		
         <div id="canvas"></div>
@@ -43,7 +51,19 @@
 	<script type="text/javascript" src="script/jquery-3.1.1.min.js" /></script>
     <script>
 	
-		var sizeText = $("#getFontSize").css('font-size');
+		var bodyMargin = parseFloat( $("#theBody").css('margin'));
+		var longestTekstOnThisPage = "Nog 99 dagen 99:99:99";
+		var longestTextWidth = $("#textCalculator").html(longestTekstOnThisPage).width();
+		var documentWidth = $(document).width() - 2 * bodyMargin;
+		var fontHeight = parseFloat($("#textCalculator").css('font-size'));
+		$("#textCalculatorContainer").remove();
+
+		if (documentWidth < longestTextWidth) {
+			var horizontalScale = documentWidth / longestTextWidth;
+			fontHeight = fontHeight * horizontalScale;
+		}
+
+		var textHeight = fontHeight + "px";
 
 
 		var pathStyle = {
@@ -163,7 +183,7 @@
 				var verticalOffset = 170;
 				var logoMargin = 30;
 				trojkaLogo(paper, offsetWidth / 2, verticalOffset/2, (verticalOffset - 2*logoMargin));
-				prettyTimeElem = paper.text(offsetWidth / 2, verticalOffset, "").attr({ id: 'timeText' }).attr({ "font-size": sizeText, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "middle" }).attr({ fill: '#000000' });
+				prettyTimeElem = paper.text(offsetWidth / 2, verticalOffset, "").attr({ id: 'timeText' }).attr({ "font-size": textHeight, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "middle" }).attr({ fill: '#000000' });
 				prettyTimeElem.id = 'timeText';
 			}
 			prettyTimeElem.attr({ text: fullPrettyMessage });
@@ -174,17 +194,17 @@
         var offsetWidth = $("#canvas").width();
         var textPositionY = 50;
         var textPadding = 5;
-        var verticalSpacing = parseFloat(sizeText);
+        var verticalSpacing = parseFloat(textHeight);
         var conversationMargin = 10;
 		
         var conversationStep = 0;
-        var t11 = paper.text(conversationMargin, textPositionY + (conversationStep * verticalSpacing), "Wat gebeurt er?").attr({ "font-size": sizeText, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "start" }).attr({ fill: '#FFFFFF' }); conversationStep++;
-        var t21 = paper.text(offsetWidth - conversationMargin, textPositionY + (conversationStep * verticalSpacing), "Vuurwerk").attr({ "font-size": sizeText, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "end" }).attr({ fill: '#FFFFFF' }); conversationStep++;
-        var t12 = paper.text(conversationMargin, textPositionY + (conversationStep * verticalSpacing), "Wanneer?").attr({ "font-size": sizeText, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "start" }).attr({ fill: '#FFFFFF' }); conversationStep++;
-        var t22 = paper.text(offsetWidth - conversationMargin, textPositionY + (conversationStep * verticalSpacing), prettyMessage).attr({ "font-size": sizeText, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "end" }).attr({ fill: '#FFFFFF' }); conversationStep++;
-        var t13 = paper.text(conversationMargin, textPositionY + (conversationStep * verticalSpacing), "Nog zo lang?").attr({ "font-size": sizeText, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "start" }).attr({ fill: '#FFFFFF' }); conversationStep++;
-        var t24 = paper.text(offsetWidth - conversationMargin, textPositionY + (conversationStep * verticalSpacing), "Yep, kom dan 's terug.").attr({ "font-size": sizeText, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "end" }).attr({ fill: '#FFFFFF' }); conversationStep++;
-        var t14 = paper.text(conversationMargin, textPositionY + (conversationStep * verticalSpacing), "Doe ik").attr({ "font-size": sizeText, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "start" }).attr({ fill: '#FFFFFF' }); conversationStep++;
+        var t11 = paper.text(conversationMargin, textPositionY + (conversationStep * verticalSpacing), "Wat gebeurt er?").attr({ "font-size": textHeight, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "start" }).attr({ fill: '#FFFFFF' }); conversationStep++;
+        var t21 = paper.text(offsetWidth - conversationMargin, textPositionY + (conversationStep * verticalSpacing), "Vuurwerk").attr({ "font-size": textHeight, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "end" }).attr({ fill: '#FFFFFF' }); conversationStep++;
+        var t12 = paper.text(conversationMargin, textPositionY + (conversationStep * verticalSpacing), "Wanneer?").attr({ "font-size": textHeight, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "start" }).attr({ fill: '#FFFFFF' }); conversationStep++;
+        var t22 = paper.text(offsetWidth - conversationMargin, textPositionY + (conversationStep * verticalSpacing), prettyMessage).attr({ "font-size": textHeight, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "end" }).attr({ fill: '#FFFFFF' }); conversationStep++;
+        var t13 = paper.text(conversationMargin, textPositionY + (conversationStep * verticalSpacing), "Nog zo lang?").attr({ "font-size": textHeight, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "start" }).attr({ fill: '#FFFFFF' }); conversationStep++;
+        var t24 = paper.text(offsetWidth - conversationMargin, textPositionY + (conversationStep * verticalSpacing), "Yep, kom dan 's terug.").attr({ "font-size": textHeight, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "end" }).attr({ fill: '#FFFFFF' }); conversationStep++;
+        var t14 = paper.text(conversationMargin, textPositionY + (conversationStep * verticalSpacing), "Doe ik").attr({ "font-size": textHeight, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "start" }).attr({ fill: '#FFFFFF' }); conversationStep++;
 
 		var fadeDuration = 700;
 		var fixDuration = 1500;
