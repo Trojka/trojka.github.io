@@ -38,6 +38,29 @@
 			return s.substr(s.length - 2);
 		}
 
+		function trojkaLogo(canvas, x, y, size) {
+			canvas.setStart();
+
+			var strokeWidth = 35;
+			var scale = size / (2 * 339.68405);
+
+			canvas.ellipse(371.07144, 512.4693, 339.68405, 339.68405).attr({ fill: "none", "stroke": "#000000", "stroke-width": scale * strokeWidth, "stroke-linecap": "round", "stroke-linejoin": "round" });
+			var face1 = "m 231.07143,292.71932 -120,240 120,0 0,200.00002 80,0";
+			var face2 = "m 391.07143,292.71932 -120,240 120,0 0,200.00002 80,-40";
+			var face3 = "m 551.07143,292.71932 -120,240 120,0 0,200.00002 80,-80";
+			canvas.path(face1).attr({ fill: "none", "stroke": "#000000", "stroke-width": scale * strokeWidth, "stroke-linecap": "round", "stroke-linejoin": "round" });
+			canvas.path(face2).attr({ fill: "none", "stroke": "#000000", "stroke-width": scale * strokeWidth, "stroke-linecap": "round", "stroke-linejoin": "round" });
+			canvas.path(face3).attr({ fill: "none", "stroke": "#000000", "stroke-width": scale * strokeWidth, "stroke-linecap": "round", "stroke-linejoin": "round" });
+			canvas.circle(273.57144, 375.21933, strokeWidth / 2).attr({ fill: "#000000", "stroke": "#000000", "stroke-width": 1 });
+			canvas.circle(433.07144, 375.71933, strokeWidth / 2).attr({ fill: "#000000", "stroke": "#000000", "stroke-width": 1 });
+			canvas.circle(593.07141, 375.71933, strokeWidth / 2).attr({ fill: "#000000", "stroke": "#000000", "stroke-width": 1 });
+
+			var completeSet = canvas.setFinish();
+			var tX = -371.07144;
+			var tY = -512.4693;
+			completeSet.transform("S" + scale + "," + scale + ",371.07,512.47T" + (tX + x) + "," + (tY + y));//.transform("");
+		}
+
 		function prettyTimespan(start, end) {
 			var diff = end.getTime() - start.getTime();
 			var days = Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -111,18 +134,22 @@
 
 		var timeFunction = function () {
 			var fullPrettyMessage = prettyFullTimespan(new Date(), newYear)
-			console.log(fullPrettyMessage);
+			//console.log(fullPrettyMessage);
 
 			var prettyTimeElem = paper.getById('timeText');
 			if (prettyTimeElem == undefined) {
-				prettyTimeElem = paper.text(offsetWidth / 2, 170, "").attr({ id: 'timeText' }).attr({ "font-size": size, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "middle" }).attr({ fill: '#000000' });
+				console.log("prettyTimeElem == undefined");
+				var verticalOffset = 170;
+				var logoMargin = 30;
+				trojkaLogo(paper, offsetWidth / 2, verticalOffset/2, (verticalOffset - 2*logoMargin));
+				prettyTimeElem = paper.text(offsetWidth / 2, verticalOffset, "").attr({ id: 'timeText' }).attr({ "font-size": size, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "middle" }).attr({ fill: '#000000' });
 				prettyTimeElem.id = 'timeText';
 			}
 			prettyTimeElem.attr({ text: fullPrettyMessage });
 		};
 
 
-		console.log(prettyMessage);
+		//console.log(prettyMessage);
 
 
 
@@ -151,7 +178,7 @@
 			"fill" : "#000000",
 		}, fadeDuration, function () {
 			this.animate(fadeOutAnimation.delay(fixDuration));
-			console.log(step);
+			//console.log(step);
 		});
 
 
