@@ -5,7 +5,7 @@
         <style type="text/css">
             body{font-family: arial; background: #FFFFFF}
 			#getFontSize {
-				font-size: 3em; visibility: hidden
+				font-size: 3em; visibility: hidden; margin: 0px
 			}
         </style>
     </head>
@@ -32,8 +32,9 @@
 				<script type="IN/Share" data-url="https://trojka.github.io/newyear/index.html" data-counter="top">
 				</script>
 			</span>
+			<h1 id="getFontSize">Hide</h1>
 		</div>
-		<h1 id="getFontSize">Hidden header</h1>
+		
         <div id="canvas"></div>
 
 	<!--Script at the bottom of the page-->
@@ -41,9 +42,8 @@
 	<script type="text/javascript" src="script/jquery-3.1.1.min.js" /></script>
     <script>
 	
-		var size = $("#getFontSize").css('font-size');
+		var sizeText = $("#getFontSize").css('font-size');
 
-		//alert("size:" + size);
 
 		var pathStyle = {
 			"opacity":0
@@ -54,7 +54,6 @@
 		var now = new Date();
 		//var now1 = new Date(2016, 11, 31, 23, 59, 1);
 
-		//console.log(now);
 
 		function pad2(num) {
 			var s = "0" + num;
@@ -97,7 +96,7 @@
 
 			var timeMessage = "";
 			if (days > 0)
-				timeMessage = "Nog langer dan " + days + ((days > 1) ? " dagen" : " dag");
+				timeMessage = "Over " + days + ((days > 1) ? " dagen" : " dag");
 			else {
 				var hoursMessage = "";
 				if (hours > 0)
@@ -156,37 +155,35 @@
 
 
 		var timeFunction = function () {
-			var fullPrettyMessage = prettyFullTimespan(new Date(), newYear)
-			//console.log(fullPrettyMessage);
+			var fullPrettyMessage = prettyFullTimespan(new Date(), newYear);
 
 			var prettyTimeElem = paper.getById('timeText');
 			if (prettyTimeElem == undefined) {
-				console.log("prettyTimeElem == undefined");
 				var verticalOffset = 170;
 				var logoMargin = 30;
 				trojkaLogo(paper, offsetWidth / 2, verticalOffset/2, (verticalOffset - 2*logoMargin));
-				prettyTimeElem = paper.text(offsetWidth / 2, verticalOffset, "").attr({ id: 'timeText' }).attr({ "font-size": size, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "middle" }).attr({ fill: '#000000' });
+				prettyTimeElem = paper.text(offsetWidth / 2, verticalOffset, "").attr({ id: 'timeText' }).attr({ "font-size": sizeText, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "middle" }).attr({ fill: '#000000' });
 				prettyTimeElem.id = 'timeText';
 			}
 			prettyTimeElem.attr({ text: fullPrettyMessage });
 		};
 
 
-		//console.log(prettyMessage);
-
-
-
-
         var paper = Raphael("canvas", '100%', 500);  
-		var offsetWidth = $("#canvas").width();
+        var offsetWidth = $("#canvas").width();
+        var textPositionY = 50;
+        var textPadding = 5;
+        var verticalSpacing = parseFloat(sizeText);
+        var conversationMargin = 10;
 		
-		var t11 = paper.text(50, 50, "Wat gebeurt er?").attr({ "font-size": size, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "start" }).attr({ fill: '#FFFFFF' });
-		var t21 = paper.text(offsetWidth - 50, 70, "Vuurwerk...").attr({ "font-size": size, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "end" }).attr({ fill: '#FFFFFF' });
-		var t12 = paper.text(50, 90, "Wanneer?").attr({ "font-size": size, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "start" }).attr({ fill: '#FFFFFF' });
-		var t22 = paper.text(offsetWidth - 50, 110, prettyMessage).attr({ "font-size": size, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "end" }).attr({ fill: '#FFFFFF' });
-		var t13 = paper.text(50, 130, "Nog zo lang?").attr({ "font-size": size, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "start" }).attr({ fill: '#FFFFFF' });
-		var t24 = paper.text(offsetWidth - 50, 150, "Yep, kom dan nog eens terug.").attr({ "font-size": size, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "end" }).attr({ fill: '#FFFFFF' });
-		var t14 = paper.text(50, 170, "Doe ik...").attr({ "font-size": size, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "start" }).attr({ fill: '#FFFFFF' });
+        var conversationStep = 0;
+        var t11 = paper.text(conversationMargin, textPositionY + (conversationStep * verticalSpacing), "Wat gebeurt er?").attr({ "font-size": sizeText, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "start" }).attr({ fill: '#FFFFFF' }); conversationStep++;
+        var t21 = paper.text(offsetWidth - conversationMargin, textPositionY + (conversationStep * verticalSpacing), "Vuurwerk").attr({ "font-size": sizeText, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "end" }).attr({ fill: '#FFFFFF' }); conversationStep++;
+        var t12 = paper.text(conversationMargin, textPositionY + (conversationStep * verticalSpacing), "Wanneer?").attr({ "font-size": sizeText, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "start" }).attr({ fill: '#FFFFFF' }); conversationStep++;
+        var t22 = paper.text(offsetWidth - conversationMargin, textPositionY + (conversationStep * verticalSpacing), prettyMessage).attr({ "font-size": sizeText, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "end" }).attr({ fill: '#FFFFFF' }); conversationStep++;
+        var t13 = paper.text(conversationMargin, textPositionY + (conversationStep * verticalSpacing), "Nog zo lang?").attr({ "font-size": sizeText, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "start" }).attr({ fill: '#FFFFFF' }); conversationStep++;
+        var t24 = paper.text(offsetWidth - conversationMargin, textPositionY + (conversationStep * verticalSpacing), "Yep, kom dan 's terug.").attr({ "font-size": sizeText, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "end" }).attr({ fill: '#FFFFFF' }); conversationStep++;
+        var t14 = paper.text(conversationMargin, textPositionY + (conversationStep * verticalSpacing), "Doe ik").attr({ "font-size": sizeText, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "start" }).attr({ fill: '#FFFFFF' }); conversationStep++;
 
 		var fadeDuration = 700;
 		var fixDuration = 1500;
@@ -201,7 +198,6 @@
 			"fill" : "#000000",
 		}, fadeDuration, function () {
 			this.animate(fadeOutAnimation.delay(fixDuration));
-			//console.log(step);
 		});
 
 
