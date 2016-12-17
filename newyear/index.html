@@ -3,16 +3,14 @@
     <head>
         <title>TamTam Fireworks</title>
         <style type="text/css">
-            body{font-family: arial;}
-            h4{font-weight:normal;}
-			#fonty {
-				font-size: 1em; visibility: hidden
+            body{font-family: arial; background: #FFFFFF}
+			#getFontSize {
+				font-size: 3em; visibility: hidden
 			}
         </style>
     </head>
     <body>
-		<h1 id="fonty">Size of font in pixels?</h1>
-        <div id="canvas1" style="width:100%;height:100%;border: 1px solid #ddd;"></div>
+		<h1 id="getFontSize">Hidden header</h1>
         <div id="canvas"></div>
 
 	<!--Script at the bottom of the page-->
@@ -20,19 +18,20 @@
 	<script type="text/javascript" src="script/jquery-3.1.1.min.js" /></script>
     <script>
 	
-		var size = $("#fonty").css('font-size');
+		var size = $("#getFontSize").css('font-size');
 
-		alert("size:" + size);
+		//alert("size:" + size);
 
 		var pathStyle = {
 			"opacity":0
 		}
 
-		var newYear = new Date(2016, 11, 15, 23, 15, 0);
+		//var newYear = new Date(2016, 11, 15, 23, 15, 0);
+		var newYear = new Date(2017, 0, 1, 0, 0, 0);
 		var now = new Date();
 		//var now1 = new Date(2016, 11, 31, 23, 59, 1);
 
-		console.log(now);
+		//console.log(now);
 
 		function pad2(num) {
 			var s = "0" + num;
@@ -131,17 +130,18 @@
         var paper = Raphael("canvas", '100%', 500);  
 		var offsetWidth = $("#canvas").width();
 		
-		var t11 = paper.text(offsetWidth - 50, 50, "Wat gebeurt er?").attr({ "font-size": size, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "end" }).attr({ fill: '#FFFFFF' });
-		var t21 = paper.text(50, 70, "Vuurwerk...").attr({ "font-size": size, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "start" }).attr({ fill: '#FFFFFF' });
-		var t12 = paper.text(offsetWidth - 50, 90, "Wanneer?").attr({ "font-size": size, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "end" }).attr({ fill: '#FFFFFF' });
-		var t22 = paper.text(50, 110, prettyMessage).attr({ "font-size": size, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "start" }).attr({ fill: '#FFFFFF' });
-		var t13 = paper.text(offsetWidth - 50, 130, "Oei").attr({ "font-size": size, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "end" }).attr({ fill: '#FFFFFF' });
-		var t24 = paper.text(50, 150, "Kom dan nog eens terug.").attr({ "font-size": size, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "start" }).attr({ fill: '#FFFFFF' });
-		var t14 = paper.text(offsetWidth - 50, 170, "Doe ik...").attr({ "font-size": size, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "end" }).attr({ fill: '#FFFFFF' });
+		var t11 = paper.text(50, 50, "Wat gebeurt er?").attr({ "font-size": size, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "start" }).attr({ fill: '#FFFFFF' });
+		var t21 = paper.text(offsetWidth - 50, 70, "Vuurwerk...").attr({ "font-size": size, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "end" }).attr({ fill: '#FFFFFF' });
+		var t12 = paper.text(50, 90, "Wanneer?").attr({ "font-size": size, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "start" }).attr({ fill: '#FFFFFF' });
+		var t22 = paper.text(offsetWidth - 50, 110, prettyMessage).attr({ "font-size": size, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "end" }).attr({ fill: '#FFFFFF' });
+		var t13 = paper.text(50, 130, "Oei").attr({ "font-size": size, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "start" }).attr({ fill: '#FFFFFF' });
+		var t24 = paper.text(offsetWidth - 50, 150, "Kom dan nog eens terug.").attr({ "font-size": size, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "end" }).attr({ fill: '#FFFFFF' });
+		var t14 = paper.text(50, 170, "Doe ik...").attr({ "font-size": size, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "start" }).attr({ fill: '#FFFFFF' });
 
-		var fadeDuration = 1;
-		var pauseDuration = 1;
-		var cycleDuration = 3 * fadeDuration + pauseDuration;
+		var fadeDuration = 700;
+		var fixDuration = 1500;
+		var pauseDuration = 200;
+		var cycleDuration = 2 * fadeDuration + fixDuration + pauseDuration;
 		
 		var fadeOutAnimation = Raphael.animation({
 			"fill" : "#FFFFFF",
@@ -150,7 +150,7 @@
 		var fadeInOutAnimation = Raphael.animation({
 			"fill" : "#000000",
 		}, fadeDuration, function () {
-			this.animate(fadeOutAnimation.delay(fadeDuration));
+			this.animate(fadeOutAnimation.delay(fixDuration));
 			console.log(step);
 		});
 
@@ -164,7 +164,7 @@
 		var fadeInOutAndStartCountDownAnimation = Raphael.animation({
 			"fill": "#000000",
 		}, fadeDuration, function () {
-			this.animate(fadeOutAndStartCountDownAnimation.delay(fadeDuration));
+			this.animate(fadeOutAndStartCountDownAnimation.delay(fixDuration));
 		});
 
 		var step = 0;
