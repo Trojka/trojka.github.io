@@ -5,9 +5,13 @@
         <style type="text/css">
             body{font-family: arial;}
             h4{font-weight:normal;}
+			#fonty {
+				font-size: 1em; visibility: hidden
+			}
         </style>
     </head>
     <body>
+		<h1 id="fonty">Size of font in pixels?</h1>
         <div id="canvas1" style="width:100%;height:100%;border: 1px solid #ddd;"></div>
         <div id="canvas"></div>
 
@@ -16,7 +20,10 @@
 	<script type="text/javascript" src="script/jquery-3.1.1.min.js" /></script>
     <script>
 	
-			
+		var size = $("#fonty").css('font-size');
+
+		alert("size:" + size);
+
 		var pathStyle = {
 			"opacity":0
 		}
@@ -109,7 +116,7 @@
 
 			var prettyTimeElem = paper.getById('timeText');
 			if (prettyTimeElem == undefined) {
-				prettyTimeElem = paper.text(offsetWidth / 2, 170, "").attr({ id: 'timeText' }).attr({ "font-size": 16, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "middle" }).attr({ fill: '#000000' });
+				prettyTimeElem = paper.text(offsetWidth / 2, 170, "").attr({ id: 'timeText' }).attr({ "font-size": size, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "middle" }).attr({ fill: '#000000' });
 				prettyTimeElem.id = 'timeText';
 			}
 			prettyTimeElem.attr({ text: fullPrettyMessage });
@@ -124,13 +131,13 @@
         var paper = Raphael("canvas", '100%', 500);  
 		var offsetWidth = $("#canvas").width();
 		
-		var t11 = paper.text(offsetWidth - 50, 50, "Wat gebeurt er?").attr({ "font-size": 16, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "end" }).attr({ fill: '#FFFFFF' });
-		var t21 = paper.text(50, 70, "Vuurwerk...").attr({ "font-size": 16, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "start" }).attr({ fill: '#FFFFFF' });
-		var t12 = paper.text(offsetWidth - 50, 90, "Wanneer?").attr({ "font-size": 16, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "end" }).attr({ fill: '#FFFFFF' });
-		var t22 = paper.text(50, 110, prettyMessage).attr({ "font-size": 16, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "start" }).attr({ fill: '#FFFFFF' });
-		var t13 = paper.text(offsetWidth - 50, 130, "Oei").attr({ "font-size": 16, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "end" }).attr({ fill: '#FFFFFF' });
-		var t24 = paper.text(50, 150, "Kom dan nog eens terug.").attr({ "font-size": 16, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "start" }).attr({ fill: '#FFFFFF' });
-		var t14 = paper.text(offsetWidth - 50, 170, "Doe ik...").attr({ "font-size": 16, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "end" }).attr({ fill: '#FFFFFF' });
+		var t11 = paper.text(offsetWidth - 50, 50, "Wat gebeurt er?").attr({ "font-size": size, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "end" }).attr({ fill: '#FFFFFF' });
+		var t21 = paper.text(50, 70, "Vuurwerk...").attr({ "font-size": size, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "start" }).attr({ fill: '#FFFFFF' });
+		var t12 = paper.text(offsetWidth - 50, 90, "Wanneer?").attr({ "font-size": size, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "end" }).attr({ fill: '#FFFFFF' });
+		var t22 = paper.text(50, 110, prettyMessage).attr({ "font-size": size, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "start" }).attr({ fill: '#FFFFFF' });
+		var t13 = paper.text(offsetWidth - 50, 130, "Oei").attr({ "font-size": size, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "end" }).attr({ fill: '#FFFFFF' });
+		var t24 = paper.text(50, 150, "Kom dan nog eens terug.").attr({ "font-size": size, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "start" }).attr({ fill: '#FFFFFF' });
+		var t14 = paper.text(offsetWidth - 50, 170, "Doe ik...").attr({ "font-size": size, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "end" }).attr({ fill: '#FFFFFF' });
 
 		var fadeDuration = 1;
 		var pauseDuration = 1;
