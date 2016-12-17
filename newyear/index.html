@@ -15,6 +15,8 @@
 				white-space: nowrap;
 			}
         </style>
+		<script type="text/javascript" src="script/raphael.min.js" /></script>
+		<script type="text/javascript" src="script/jquery-3.1.1.min.js" /></script>
     </head>
     <body id="theBody">
 		<div >
@@ -47,8 +49,6 @@
         <div id="canvas"></div>
 
 	<!--Script at the bottom of the page-->
-	<script type="text/javascript" src="script/raphael.min.js" /></script>
-	<script type="text/javascript" src="script/jquery-3.1.1.min.js" /></script>
     <script>
 	
 		var bodyMargin = parseFloat( $("#theBody").css('margin'));
@@ -70,7 +70,7 @@
 			"opacity":0
 		}
 
-		//var newYear = new Date(2016, 11, 15, 23, 15, 0);
+		//var newYear = new Date(2016, 11, 17, 20, 21, 0);
 		var newYear = new Date(2017, 0, 1, 0, 0, 0);
 		var now = new Date();
 		//var now1 = new Date(2016, 11, 31, 23, 59, 1);
@@ -121,16 +121,16 @@
 			else {
 				var hoursMessage = "";
 				if (hours > 0)
-					timeMessage = "Nog langer dan " + hours + ((hours > 1) ? " uren" : " uur");
+					timeMessage = "Over " + hours + ((hours > 1) ? " uren" : " uur");
 				else {
 					var minutesMessage = "";
 					if (mins > 0)
-						minutesMessage = mins + ((mins > 1) ? " minuten" : " minuut");
+						timeMessage = "Over " + mins + ((mins > 1) ? " minuten" : " minuut");
+					else {
 					var secondsMessage = "";
 					if (seconds > 0)
-						secondsMessage = seconds + " seconden";
-
-					timeMessage = "Nog " + minutesMessage + ((minutesMessage != "") ? " en " : "") + secondsMessage;
+						timeMessage = "Nog " + seconds + " seconden";
+					}
 				}
 			}
 
@@ -202,9 +202,20 @@
         var t21 = paper.text(offsetWidth - conversationMargin, textPositionY + (conversationStep * verticalSpacing), "Vuurwerk").attr({ "font-size": textHeight, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "end" }).attr({ fill: '#FFFFFF' }); conversationStep++;
         var t12 = paper.text(conversationMargin, textPositionY + (conversationStep * verticalSpacing), "Wanneer?").attr({ "font-size": textHeight, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "start" }).attr({ fill: '#FFFFFF' }); conversationStep++;
         var t22 = paper.text(offsetWidth - conversationMargin, textPositionY + (conversationStep * verticalSpacing), prettyMessage).attr({ "font-size": textHeight, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "end" }).attr({ fill: '#FFFFFF' }); conversationStep++;
-        var t13 = paper.text(conversationMargin, textPositionY + (conversationStep * verticalSpacing), "Nog zo lang?").attr({ "font-size": textHeight, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "start" }).attr({ fill: '#FFFFFF' }); conversationStep++;
-        var t24 = paper.text(offsetWidth - conversationMargin, textPositionY + (conversationStep * verticalSpacing), "Yep, kom dan 's terug.").attr({ "font-size": textHeight, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "end" }).attr({ fill: '#FFFFFF' }); conversationStep++;
-        var t14 = paper.text(conversationMargin, textPositionY + (conversationStep * verticalSpacing), "Doe ik").attr({ "font-size": textHeight, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "start" }).attr({ fill: '#FFFFFF' }); conversationStep++;
+
+        var followUpLine1 = "Nog zo lang?";
+        var followUpLine2 = "Yep, kom dan 's terug.";
+        var followUpLine3 = "Doe ik";
+        var mintuesXAlternative = 5 * 60 * 1000;
+        if (mintuesXAlternative > (newYear.getTime() - now.getTime())) {
+        	followUpLine1 = "Spannend";
+        	followUpLine2 = "Best blijven kijken";
+        	followUpLine3 = "Doe ik";
+        }
+
+        var t13 = paper.text(conversationMargin, textPositionY + (conversationStep * verticalSpacing), followUpLine1).attr({ "font-size": textHeight, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "start" }).attr({ fill: '#FFFFFF' }); conversationStep++;
+        var t24 = paper.text(offsetWidth - conversationMargin, textPositionY + (conversationStep * verticalSpacing), followUpLine2).attr({ "font-size": textHeight, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "end" }).attr({ fill: '#FFFFFF' }); conversationStep++;
+        var t14 = paper.text(conversationMargin, textPositionY + (conversationStep * verticalSpacing), followUpLine3).attr({ "font-size": textHeight, "font-family": "Arial, Helvetica, sans-serif", "text-anchor": "start" }).attr({ fill: '#FFFFFF' }); conversationStep++;
 
 		var fadeDuration = 700;
 		var fixDuration = 1500;
